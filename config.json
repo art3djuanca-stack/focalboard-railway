@@ -1,10 +1,6 @@
 {
-  "serverRoot": "http://localhost:8000",
+  "serverRoot": "http://0.0.0.0:8000",
   "port": 8000,
   "dbtype": "postgres",
-  "dbconfig": "POSTGRES_URL",
-  "useSSL": false,
-  "allowedOrigins": [
-    "*"
-  ]
+  "dbconfig": "${DATABASE_URL}"
 }
