@@ -6,12 +6,5 @@
   "useSSL": false,
   "allowedOrigins": [
     "*"
-  ],
-  "webpath": "./pack",
-  "filespath": "./files",
-  "enableLocalMode": true,
-  "localModeSocketLocation": "/var/tmp/focalboard_local.socket",
-  "telemetry": {
-    "enabled": false
-  }
+  ]
 }

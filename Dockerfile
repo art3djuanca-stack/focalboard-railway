@@ -1,12 +1,26 @@
-FROM mattermost/focalboard:latest
+FROM debian:bookworm-slim
 
-WORKDIR /app
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    unzip \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY config.json /app/config.json
-COPY entrypoint.sh /app/entrypoint.sh
+# Create app directory
+RUN mkdir -p /opt/focalboard
+WORKDIR /opt/focalboard
 
-RUN chmod +x /app/entrypoint.sh
+# Download Focalboard Server Edition (v0.13.1)
+RUN curl -L -o focalboard.zip https://github.com/mattermost/focalboard/releases/download/v0.13.1/focalboard-server-linux-amd64.zip \
+    && unzip focalboard.zip \
+    && rm focalboard.zip \
+    && chmod +x /opt/focalboard/bin/focalboard-server
 
-ENV CONFIG_FILE=/app/config.json
+# Copy config + entrypoint
+COPY config.json /opt/focalboard/config.json
+COPY entrypoint.sh /opt/focalboard/entrypoint.sh
+RUN chmod +x /opt/focalboard/entrypoint.sh
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+EXPOSE 8000
+ENTRYPOINT ["/opt/focalboard/entrypoint.sh"]
