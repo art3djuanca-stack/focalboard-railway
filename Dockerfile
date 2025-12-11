@@ -1,9 +1,12 @@
 FROM mattermost/focalboard:latest
 
-# Copy config and entrypoint into the container
-COPY config.json /opt/focalboard/config.json
-COPY entrypoint.sh /entrypoint.sh
+WORKDIR /app
 
-RUN chmod +x /entrypoint.sh
+COPY config.json /app/config.json
+COPY entrypoint.sh /app/entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+RUN chmod +x /app/entrypoint.sh
+
+ENV CONFIG_FILE=/app/config.json
+
+ENTRYPOINT ["/app/entrypoint.sh"]
